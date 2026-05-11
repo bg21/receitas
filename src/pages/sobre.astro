@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sobre">
+  <div class="container">
+    <div class="about-content">
+      <h1>Sobre o Minha Receita</h1>
+      <p>O Minha Receita é um projeto experimental focado em trazer a melhor experiência gastronômica digital para você. Inspirado no design premium da Seara, nossa plataforma permite que você organize suas receitas de forma simples e elegante.</p>
+      
+      <div class="features">
+        <div class="feature-card">
+          <h3>Simplicidade</h3>
+          <p>Tudo é feito através de arquivos Markdown, sem a necessidade de bancos de dados complexos.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Design Premium</h3>
+          <p>Interface pensada para destacar o que mais importa: o apetite visual pelas receitas.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Agilidade</h3>
+          <p>Construído com Astro para garantir a melhor performance e SEO.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .about-content {
+    max-width: 800px;
+    margin: 4rem auto;
+    text-align: center;
+  }
+
+  h1 {
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: #555;
+    margin-bottom: 3rem;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .feature-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-card);
+    box-shadow: var(--shadow);
+  }
+
+  .feature-card h3 {
+    color: var(--color-primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p {
+    font-size: 0.875rem;
+    margin-bottom: 0;
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RecipeCard from '../components/RecipeCard.astro';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+---
+
+<Layout title="Início">
+	<section class="hero">
+		<div class="container">
+			<h1>Minha Receita</h1>
+			<p>Explore as melhores receitas com o toque especial que você merece.</p>
+		</div>
+	</section>
+
+	<div class="container">
+		<div class="recipe-grid">
+			{recipes.map(recipe => (
+				<RecipeCard 
+					title={recipe.data.title}
+					description={recipe.data.description}
+					image={recipe.data.image}
+					category={recipe.data.category}
+					prepTime={recipe.data.prepTime}
+					servings={recipe.data.servings}
+					slug={recipe.id}
+				/>
+			))}
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.hero {
+		background-color: var(--color-bg);
+		padding: 4rem 0 3rem;
+		text-align: center;
+	}
+
+	.hero h1 {
+		font-size: 3rem;
+		color: var(--color-primary);
+		margin-bottom: 1rem;
+	}
+
+	.hero p {
+		font-size: 1.25rem;
+		color: #555;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.recipe-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 2rem;
+		padding: 2rem 0 4rem;
+	}
+
+	@media (max-width: 768px) {
+		.hero h1 {
+			font-size: 2.25rem;
+		}
+		
+		.recipe-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
