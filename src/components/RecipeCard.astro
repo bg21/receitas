@@ -21,7 +21,7 @@ const categoryColors: Record<string, string> = {
 const categoryColor = categoryColors[category] || 'var(--color-primary)';
 ---
 
-<a href={`/receita/${slug}`} class="recipe-card" data-tags={tags.join(',')}>
+<a href={`/receita/${slug}`} class="recipe-card" data-tags={tags.join(',')} data-title={title}>
   <div class="image-container">
     {image && <img src={image} alt={title} />}
     <div class="category-tag" style={`background-color: ${categoryColor}`}>{category}</div>

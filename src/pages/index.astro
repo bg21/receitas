@@ -46,28 +46,55 @@ const allTags = [...new Set(recipes.flatMap(recipe => recipe.data.tags))].sort()
 <script>
 	const filterButtons = document.querySelectorAll('.filter-btn');
 	const recipeCards = document.querySelectorAll('.recipe-card') as NodeListOf<HTMLElement>;
+	const searchInput = document.getElementById('site-search') as HTMLInputElement;
+
+	let activeTag = 'all';
+	let searchQuery = '';
+
+	function updateVisibility() {
+		recipeCards.forEach(card => {
+			const title = (card.getAttribute('data-title') || '').toLowerCase();
+			const cardTagsAttr = card.getAttribute('data-tags');
+			const cardTags = cardTagsAttr ? cardTagsAttr.split(',') : [];
+
+			const matchesTag = activeTag === 'all' || cardTags.includes(activeTag);
+			const matchesSearch = title.includes(searchQuery.toLowerCase());
+
+			if (matchesTag && matchesSearch) {
+				card.style.display = 'flex';
+			} else {
+				card.style.display = 'none';
+			}
+		});
+	}
 
 	filterButtons.forEach(btn => {
 		btn.addEventListener('click', () => {
-			const tag = btn.getAttribute('data-tag');
+			activeTag = btn.getAttribute('data-tag') || 'all';
 			
-			// Atualizar estado ativo
+			// Atualizar estado ativo dos botões
 			filterButtons.forEach(b => b.classList.remove('active'));
 			btn.classList.add('active');
 
-			// Filtrar cards
-			recipeCards.forEach(card => {
-				const cardTagsAttr = card.getAttribute('data-tags');
-				const cardTags = cardTagsAttr ? cardTagsAttr.split(',') : [];
-				
-				if (tag === 'all' || cardTags.includes(tag || '')) {
-					card.style.display = 'flex';
-				} else {
-					card.style.display = 'none';
-				}
-			});
+			updateVisibility();
 		});
 	});
+
+	if (searchInput) {
+		searchInput.addEventListener('input', (e) => {
+			searchQuery = (e.target as HTMLInputElement).value;
+			updateVisibility();
+		});
+
+		// Verificar se há uma busca vinda da URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const initialQuery = urlParams.get('q');
+		if (initialQuery) {
+			searchInput.value = initialQuery;
+			searchQuery = initialQuery;
+			updateVisibility();
+		}
+	}
 </script>
 
 <style>
