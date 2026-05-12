@@ -30,6 +30,14 @@ const categoryColor = categoryColors[recipe.data.category] || 'var(--color-prima
         <h1>{recipe.data.title}</h1>
         <p class="description">{recipe.data.description}</p>
         
+        {recipe.data.tags.length > 0 && (
+          <div class="tags-container">
+            {recipe.data.tags.map(tag => (
+              <span class="recipe-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+        
         <div class="meta-pills">
           <div class="pill">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -127,6 +135,22 @@ const categoryColor = categoryColors[recipe.data.category] || 'var(--color-prima
     font-size: 1.125rem;
     opacity: 0.9;
     margin-bottom: 2rem;
+  }
+
+  .tags-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .recipe-tag {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .meta-pills {

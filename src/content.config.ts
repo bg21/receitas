@@ -11,6 +11,7 @@ const recipes = defineCollection({
     prepTime: z.string(),
     servings: z.string(),
     featured: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
   }),
 });
 

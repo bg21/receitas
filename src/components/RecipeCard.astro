@@ -7,9 +7,10 @@ interface Props {
   prepTime: string;
   servings: string;
   slug: string;
+  tags?: string[];
 }
 
-const { title, description, image, category, prepTime, servings, slug } = Astro.props;
+const { title, description, image, category, prepTime, servings, slug, tags = [] } = Astro.props;
 
 const categoryColors: Record<string, string> = {
   'Aves': 'var(--color-aves)',
@@ -20,7 +21,7 @@ const categoryColors: Record<string, string> = {
 const categoryColor = categoryColors[category] || 'var(--color-primary)';
 ---
 
-<a href={`/receita/${slug}`} class="recipe-card">
+<a href={`/receita/${slug}`} class="recipe-card" data-tags={tags.join(',')}>
   <div class="image-container">
     {image && <img src={image} alt={title} />}
     <div class="category-tag" style={`background-color: ${categoryColor}`}>{category}</div>

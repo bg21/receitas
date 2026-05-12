@@ -4,6 +4,7 @@ import RecipeCard from '../components/RecipeCard.astro';
 import { getCollection } from 'astro:content';
 
 const recipes = await getCollection('recipes');
+const allTags = [...new Set(recipes.flatMap(recipe => recipe.data.tags))].sort();
 ---
 
 <Layout title="Início">
@@ -15,6 +16,16 @@ const recipes = await getCollection('recipes');
 	</section>
 
 	<div class="container">
+		<div class="filter-wrapper">
+			<span class="filter-label">Filtrar por:</span>
+			<div class="filter-container">
+				<button class="filter-btn active" data-tag="all">Todas</button>
+				{allTags.map(tag => (
+					<button class="filter-btn" data-tag={tag}>{tag}</button>
+				))}
+			</div>
+		</div>
+
 		<div class="recipe-grid">
 			{recipes.map(recipe => (
 				<RecipeCard 
@@ -25,11 +36,39 @@ const recipes = await getCollection('recipes');
 					prepTime={recipe.data.prepTime}
 					servings={recipe.data.servings}
 					slug={recipe.id}
+					tags={recipe.data.tags}
 				/>
 			))}
 		</div>
 	</div>
 </Layout>
+
+<script>
+	const filterButtons = document.querySelectorAll('.filter-btn');
+	const recipeCards = document.querySelectorAll('.recipe-card') as NodeListOf<HTMLElement>;
+
+	filterButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			const tag = btn.getAttribute('data-tag');
+			
+			// Atualizar estado ativo
+			filterButtons.forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+
+			// Filtrar cards
+			recipeCards.forEach(card => {
+				const cardTagsAttr = card.getAttribute('data-tags');
+				const cardTags = cardTagsAttr ? cardTagsAttr.split(',') : [];
+				
+				if (tag === 'all' || cardTags.includes(tag || '')) {
+					card.style.display = 'flex';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+</script>
 
 <style>
 	.hero {
@@ -55,7 +94,44 @@ const recipes = await getCollection('recipes');
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		gap: 2rem;
-		padding: 2rem 0 4rem;
+		padding: 0 0 4rem;
+	}
+
+	.filter-wrapper {
+		margin: 2rem 0;
+		text-align: center;
+	}
+
+	.filter-label {
+		display: block;
+		font-size: 0.875rem;
+		color: #888;
+		margin-bottom: 0.75rem;
+		font-weight: 500;
+	}
+
+	.filter-container {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.filter-btn {
+		background-color: white;
+		border: 2px solid var(--color-primary);
+		color: var(--color-primary);
+		padding: 0.4rem 1.25rem;
+		border-radius: 999px;
+		font-size: 0.875rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.filter-btn.active, .filter-btn:hover {
+		background-color: var(--color-primary);
+		color: white;
 	}
 
 	@media (max-width: 768px) {

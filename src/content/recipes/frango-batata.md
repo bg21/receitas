@@ -1,12 +1,12 @@
 ---
-title: "Frango Assado com Ervas Finas"
+title: "Frango"
 description: "Uma receita clássica e suculenta, perfeita para o almoço de domingo com a família."
 image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=800"
 category: "Aves"
 prepTime: "1h 30min"
 servings: "4 pessoas"
 featured: true
-tags: ["Assado", "Família", "Tradicional"]
+tags: ["Assado", "Prático"]
 ---
 
 ## Ingredientes
